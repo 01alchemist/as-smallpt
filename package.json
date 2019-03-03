@@ -1,0 +1,37 @@
+{
+    "name": "as-pt",
+    "version": "1.0.0",
+    "description": "Path tracer written in AssemblyScript",
+    "main": "src/index.ts",
+    "scripts": {
+        "test": "jest",
+        "tdd": "jest --watch",
+        "build:untouched": "asc src/index.ts -b build/untouched.wasm -t build/untouched.wat --debug --sourceMap --sharedMemory=800 --importMemory --enable=threads",
+        "build:optimized": "asc src/index.ts -b build/optimized.wasm -t build/optimized.wat -O3 --noAssert --sharedMemory=800 --importMemory --enable=threads ",
+        "build": "npm run build:untouched && npm run build:optimized",
+        "benchmark": "node ./benchmarks/benchmark.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/01alchemist/as-pt.git"
+    },
+    "keywords": [
+        "LZMA",
+        "data",
+        "compression",
+        "javascript",
+        "assemblyscript",
+        "webassembly"
+    ],
+    "author": "Nidin Vinayakan",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/01alchemist/as-pt/issues"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "assemblyscript": "AssemblyScript/assemblyscript",
+        "benchmark": "^2.1.4",
+        "jest": "^24.1.0"
+    }
+}
