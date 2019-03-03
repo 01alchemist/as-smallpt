@@ -1,4 +1,4 @@
-AS-PT
+AS-SmallPT
 =====
 
-Path tracer written in AssemblyScript
+SmallPT written in AssemblyScript

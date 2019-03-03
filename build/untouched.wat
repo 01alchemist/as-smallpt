@@ -1,27 +1,27 @@
 (module
- (type $FUNCSIG$v (func))
- (type $FUNCSIG$i (func (result i32)))
- (type $FUNCSIG$vi (func (param i32)))
- (type $FUNCSIG$iii (func (param i32 i32) (result i32)))
- (type $FUNCSIG$vd (func (param f64)))
- (type $FUNCSIG$vj (func (param i64)))
- (type $FUNCSIG$viiii (func (param i32 i32 i32 i32)))
- (type $FUNCSIG$jj (func (param i64) (result i64)))
- (type $FUNCSIG$ii (func (param i32) (result i32)))
- (type $FUNCSIG$iiddd (func (param i32 f64 f64 f64) (result i32)))
- (type $FUNCSIG$iiii (func (param i32 i32 i32) (result i32)))
- (type $FUNCSIG$iid (func (param i32 f64) (result i32)))
- (type $FUNCSIG$iidi (func (param i32 f64 i32) (result i32)))
- (type $FUNCSIG$di (func (param i32) (result f64)))
- (type $FUNCSIG$dii (func (param i32 i32) (result f64)))
- (type $FUNCSIG$iidiiii (func (param i32 f64 i32 i32 i32 i32) (result i32)))
- (type $FUNCSIG$viii (func (param i32 i32 i32)))
- (type $FUNCSIG$iiidi (func (param i32 i32 f64 i32) (result i32)))
- (type $FUNCSIG$viiiiii (func (param i32 i32 i32 i32 i32 i32)))
- (type $FUNCSIG$d (func (result f64)))
- (type $FUNCSIG$iiiii (func (param i32 i32 i32 i32) (result i32)))
- (type $FUNCSIG$dd (func (param f64) (result f64)))
- (type $FUNCSIG$vid (func (param i32 f64)))
+ (type $_ (func))
+ (type $i (func (result i32)))
+ (type $i_ (func (param i32)))
+ (type $iii (func (param i32 i32) (result i32)))
+ (type $F_ (func (param f64)))
+ (type $I_ (func (param i64)))
+ (type $iiii_ (func (param i32 i32 i32 i32)))
+ (type $II (func (param i64) (result i64)))
+ (type $ii (func (param i32) (result i32)))
+ (type $iFFFi (func (param i32 f64 f64 f64) (result i32)))
+ (type $iiii (func (param i32 i32 i32) (result i32)))
+ (type $iFi (func (param i32 f64) (result i32)))
+ (type $iFii (func (param i32 f64 i32) (result i32)))
+ (type $iF (func (param i32) (result f64)))
+ (type $iiF (func (param i32 i32) (result f64)))
+ (type $iFiiiii (func (param i32 f64 i32 i32 i32 i32) (result i32)))
+ (type $iii_ (func (param i32 i32 i32)))
+ (type $iiFii (func (param i32 i32 f64 i32) (result i32)))
+ (type $iiiiii_ (func (param i32 i32 i32 i32 i32 i32)))
+ (type $F (func (result f64)))
+ (type $iiiii (func (param i32 i32 i32 i32) (result i32)))
+ (type $FF (func (param f64) (result f64)))
+ (type $iF_ (func (param i32 f64)))
  (import "env" "memory" (memory $0 (shared 1 800)))
  (data (i32.const 8) "\0c\00\00\00~\00l\00i\00b\00/\00m\00a\00t\00h\00.\00t\00s\00")
  (data (i32.const 40) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
@@ -89,7 +89,7 @@
  (export "createLocals" (func $src/index/createLocals))
  (export "render" (func $src/index/render))
  (start $start)
- (func $start:src/allocator (; 3 ;) (type $FUNCSIG$v)
+ (func $start:src/allocator (; 3 ;) (type $_)
   global.get $~lib/memory/HEAP_BASE
   i32.const 7
   i32.add
@@ -114,29 +114,29 @@
   global.get $src/allocator/TOP
   i32.store
  )
- (func $start:src/index (; 4 ;) (type $FUNCSIG$v)
+ (func $start:src/index (; 4 ;) (type $_)
   call $start:src/allocator
  )
- (func $src/allocator/__allocator_get_offset (; 5 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/allocator/__allocator_get_offset (; 5 ;) (type $i) (result i32)
   global.get $src/allocator/OFFSET_PTR
   i32.atomic.load
  )
- (func $src/index/GET_MEMORY_TOP (; 6 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/GET_MEMORY_TOP (; 6 ;) (type $i) (result i32)
   call $src/allocator/__allocator_get_offset
  )
- (func $src/allocator/__allocator_set_offset (; 7 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/allocator/__allocator_set_offset (; 7 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   global.get $src/allocator/OFFSET_PTR
   local.get $0
   local.get $1
   i32.atomic.rmw.cmpxchg
  )
- (func $src/index/SET_MEMORY_TOP (; 8 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $src/index/SET_MEMORY_TOP (; 8 ;) (type $i_) (param $0 i32)
   call $src/index/GET_MEMORY_TOP
   local.get $0
   call $src/allocator/__allocator_set_offset
   drop
  )
- (func $~lib/math/murmurHash3 (; 9 ;) (type $FUNCSIG$jj) (param $0 i64) (result i64)
+ (func $~lib/math/murmurHash3 (; 9 ;) (type $II) (param $0 i64) (result i64)
   local.get $0
   local.get $0
   i64.const 33
@@ -165,7 +165,7 @@
   local.set $0
   local.get $0
  )
- (func $~lib/math/splitMix32 (; 10 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/math/splitMix32 (; 10 ;) (type $ii) (param $0 i32) (result i32)
   local.get $0
   i32.const 1831565813
   i32.add
@@ -200,7 +200,7 @@
   i32.shr_u
   i32.xor
  )
- (func $~lib/math/NativeMath.seedRandom (; 11 ;) (type $FUNCSIG$vj) (param $0 i64)
+ (func $~lib/math/NativeMath.seedRandom (; 11 ;) (type $I_) (param $0 i64)
   local.get $0
   i64.eqz
   if
@@ -229,12 +229,12 @@
   call $~lib/math/splitMix32
   global.set $~lib/math/random_state1_32
  )
- (func $src/index/seedRandom (; 12 ;) (type $FUNCSIG$vd) (param $0 f64)
+ (func $src/index/seedRandom (; 12 ;) (type $F_) (param $0 f64)
   local.get $0
   i64.reinterpret_f64
   call $~lib/math/NativeMath.seedRandom
  )
- (func $src/allocator/__memory_allocate (; 13 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $src/allocator/__memory_allocate (; 13 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -322,12 +322,12 @@
   end
   i32.const 0
  )
- (func $~lib/memory/memory.allocate (; 14 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/memory/memory.allocate (; 14 ;) (type $ii) (param $0 i32) (result i32)
   local.get $0
   call $src/allocator/__memory_allocate
   return
  )
- (func $src/index/Vec#constructor (; 15 ;) (type $FUNCSIG$iiddd) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
+ (func $src/index/Vec#constructor (; 15 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
   local.get $0
   i32.eqz
   if
@@ -346,14 +346,14 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/allocator/__memory_free (; 16 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $src/allocator/__memory_free (; 16 ;) (type $i_) (param $0 i32)
   nop
  )
- (func $src/index/Vec#free (; 17 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $src/index/Vec#free (; 17 ;) (type $i_) (param $0 i32)
   local.get $0
   call $src/allocator/__memory_free
  )
- (func $src/index/Vec#add (; 18 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#add (; 18 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   i32.const 0
   local.get $0
   f64.load
@@ -372,7 +372,7 @@
   f64.add
   call $src/index/Vec#constructor
  )
- (func $src/index/Vec#add_in (; 19 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#add_in (; 19 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   local.get $0
   f64.load
@@ -396,7 +396,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#add2 (; 20 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#add2 (; 20 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $2
   local.get $0
   f64.load
@@ -420,7 +420,7 @@
   f64.store offset=16
   local.get $2
  )
- (func $src/index/Vec#set (; 21 ;) (type $FUNCSIG$iiddd) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
+ (func $src/index/Vec#set (; 21 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
   local.get $0
   local.get $1
   f64.store
@@ -432,7 +432,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#setFrom (; 22 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#setFrom (; 22 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   local.get $1
   f64.load
@@ -447,7 +447,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#sub (; 23 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#sub (; 23 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $2
   i32.const 0
   i32.ne
@@ -494,7 +494,7 @@
   f64.sub
   call $src/index/Vec#constructor
  )
- (func $src/index/Vec#sub2 (; 24 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#sub2 (; 24 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $2
   local.get $0
   f64.load
@@ -518,7 +518,7 @@
   f64.store offset=16
   local.get $2
  )
- (func $src/index/Vec#sub_in (; 25 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#sub_in (; 25 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   local.get $0
   f64.load
@@ -542,7 +542,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#mul (; 26 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#mul (; 26 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   i32.const 0
   local.get $0
   f64.load
@@ -561,7 +561,7 @@
   f64.mul
   call $src/index/Vec#constructor
  )
- (func $src/index/Vec#mul_in (; 27 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#mul_in (; 27 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   local.get $0
   f64.load
@@ -585,7 +585,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#multScalar (; 28 ;) (type $FUNCSIG$iid) (param $0 i32) (param $1 f64) (result i32)
+ (func $src/index/Vec#multScalar (; 28 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
   i32.const 0
   local.get $0
   f64.load
@@ -601,7 +601,7 @@
   f64.mul
   call $src/index/Vec#constructor
  )
- (func $src/index/Vec#multScalar2 (; 29 ;) (type $FUNCSIG$iidi) (param $0 i32) (param $1 f64) (param $2 i32) (result i32)
+ (func $src/index/Vec#multScalar2 (; 29 ;) (type $iFii) (param $0 i32) (param $1 f64) (param $2 i32) (result i32)
   local.get $2
   local.get $0
   f64.load
@@ -622,7 +622,7 @@
   f64.store offset=16
   local.get $2
  )
- (func $src/index/Vec#multScalar_in (; 30 ;) (type $FUNCSIG$iid) (param $0 i32) (param $1 f64) (result i32)
+ (func $src/index/Vec#multScalar_in (; 30 ;) (type $iFi) (param $0 i32) (param $1 f64) (result i32)
   local.get $0
   local.get $0
   f64.load
@@ -643,7 +643,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#mod (; 31 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#mod (; 31 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   i32.const 0
   local.get $0
   f64.load offset=8
@@ -680,7 +680,7 @@
   f64.sub
   call $src/index/Vec#constructor
  )
- (func $src/index/Vec#mod_in (; 32 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#mod_in (; 32 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
   local.get $0
   f64.load offset=8
@@ -722,7 +722,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#mod2 (; 33 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#mod2 (; 33 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $2
   local.get $0
   f64.load offset=8
@@ -764,7 +764,7 @@
   f64.store offset=16
   local.get $2
  )
- (func $src/index/Vec#length (; 34 ;) (type $FUNCSIG$di) (param $0 i32) (result f64)
+ (func $src/index/Vec#length (; 34 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load
   local.get $0
@@ -784,7 +784,7 @@
   f64.add
   f64.sqrt
  )
- (func $src/index/Vec#norm (; 35 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $src/index/Vec#norm (; 35 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 f64)
   block $src/index/Vec#length|inlined.0 (result f64)
@@ -825,7 +825,7 @@
   f64.div
   call $src/index/Vec#constructor
  )
- (func $src/index/Vec#norm_in (; 36 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $src/index/Vec#norm_in (; 36 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 f64)
   block $src/index/Vec#length|inlined.1 (result f64)
@@ -871,7 +871,7 @@
   f64.store offset=16
   local.get $0
  )
- (func $src/index/Vec#dot (; 37 ;) (type $FUNCSIG$dii) (param $0 i32) (param $1 i32) (result f64)
+ (func $src/index/Vec#dot (; 37 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
   local.get $0
   f64.load
   local.get $1
@@ -890,7 +890,7 @@
   f64.mul
   f64.add
  )
- (func $src/index/Vec#clone (; 38 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#clone (; 38 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $1
   local.get $0
   f64.load
@@ -905,23 +905,23 @@
   f64.store offset=16
   local.get $1
  )
- (func $src/index/getPixels (; 39 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/getPixels (; 39 ;) (type $i) (result i32)
   global.get $src/index/context
   i32.load
  )
- (func $src/index/setPixels (; 40 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $src/index/setPixels (; 40 ;) (type $i_) (param $0 i32)
   global.get $src/index/context
   local.get $0
   i32.store
  )
- (func $src/index/setContext (; 41 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $src/index/setContext (; 41 ;) (type $i_) (param $0 i32)
   local.get $0
   global.set $src/index/context
  )
- (func $src/index/getContext (; 42 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/getContext (; 42 ;) (type $i) (result i32)
   global.get $src/index/context
  )
- (func $src/index/Context#constructor (; 43 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Context#constructor (; 43 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -958,7 +958,7 @@
   i32.store offset=32
   local.get $0
  )
- (func $src/index/Sphere#constructor (; 44 ;) (type $FUNCSIG$iidiiii) (param $0 i32) (param $1 f64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
+ (func $src/index/Sphere#constructor (; 44 ;) (type $iFiiiii) (param $0 i32) (param $1 f64) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -983,7 +983,7 @@
   i32.store offset=20
   local.get $0
  )
- (func $~lib/internal/arraybuffer/computeSize (; 45 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/computeSize (; 45 ;) (type $ii) (param $0 i32) (result i32)
   i32.const 1
   i32.const 32
   local.get $0
@@ -995,7 +995,7 @@
   i32.sub
   i32.shl
  )
- (func $~lib/internal/arraybuffer/allocateUnsafe (; 46 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/internal/arraybuffer/allocateUnsafe (; 46 ;) (type $ii) (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   local.get $0
@@ -1024,7 +1024,7 @@
   i32.store
   local.get $1
  )
- (func $~lib/internal/memory/memset (; 47 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/internal/memory/memset (; 47 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i64)
@@ -1278,7 +1278,7 @@
    end
   end
  )
- (func $~lib/array/Array<Sphere>#constructor (; 48 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Sphere>#constructor (; 48 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1339,7 +1339,7 @@
   end
   local.get $0
  )
- (func $~lib/array/Array<Sphere>#__unchecked_set (; 49 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Sphere>#__unchecked_set (; 49 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1363,7 +1363,7 @@
   local.get $5
   i32.store offset=8
  )
- (func $src/index/Ray#constructor (; 50 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Ray#constructor (; 50 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -1379,7 +1379,7 @@
   i32.store offset=4
   local.get $0
  )
- (func $~lib/array/Array<Vec>#constructor (; 51 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Vec>#constructor (; 51 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1440,7 +1440,7 @@
   end
   local.get $0
  )
- (func $~lib/array/Array<Vec>#__unchecked_set (; 52 ;) (type $FUNCSIG$viii) (param $0 i32) (param $1 i32) (param $2 i32)
+ (func $~lib/array/Array<Vec>#__unchecked_set (; 52 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
@@ -1464,7 +1464,7 @@
   local.get $5
   i32.store offset=8
  )
- (func $src/index/createContext (; 53 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/createContext (; 53 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 f64)
@@ -1967,7 +1967,7 @@
   end
   global.get $src/index/context
  )
- (func $src/index/Hit#constructor (; 54 ;) (type $FUNCSIG$iiidi) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
+ (func $src/index/Hit#constructor (; 54 ;) (type $iiFii) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -1986,7 +1986,7 @@
   i32.store offset=16
   local.get $0
  )
- (func $src/index/Ray#constructor|trampoline (; 55 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Ray#constructor|trampoline (; 55 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $2of2
    block $1of2
     block $0of2
@@ -2015,7 +2015,7 @@
   local.get $2
   call $src/index/Ray#constructor
  )
- (func $src/index/Hit#constructor|trampoline (; 56 ;) (type $FUNCSIG$iiidi) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
+ (func $src/index/Hit#constructor|trampoline (; 56 ;) (type $iiFii) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
   block $3of3
    block $2of3
     block $1of3
@@ -2048,7 +2048,7 @@
   local.get $3
   call $src/index/Hit#constructor
  )
- (func $src/index/Locals#constructor (; 57 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $src/index/Locals#constructor (; 57 ;) (type $ii) (param $0 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -2257,14 +2257,14 @@
   i32.store offset=104
   local.get $0
  )
- (func $src/index/createLocals (; 58 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/createLocals (; 58 ;) (type $i) (result i32)
   (local $0 i32)
   i32.const 0
   call $src/index/Locals#constructor
   local.set $0
   local.get $0
  )
- (func $~lib/math/NativeMath.random (; 59 ;) (type $FUNCSIG$d) (result f64)
+ (func $~lib/math/NativeMath.random (; 59 ;) (type $F) (result f64)
   (local $0 i64)
   (local $1 i64)
   (local $2 i64)
@@ -2321,10 +2321,10 @@
   f64.const 1
   f64.sub
  )
- (func $src/index/rand (; 60 ;) (type $FUNCSIG$d) (result f64)
+ (func $src/index/rand (; 60 ;) (type $F) (result f64)
   call $~lib/math/NativeMath.random
  )
- (func $~lib/array/Array<Sphere>#__unchecked_get (; 61 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Sphere>#__unchecked_get (; 61 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -2344,7 +2344,7 @@
   i32.add
   i32.load offset=8
  )
- (func $src/index/radiance (; 62 ;) (type $FUNCSIG$iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $src/index/radiance (; 62 ;) (type $iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -4653,7 +4653,7 @@
    local.get $6
   end
  )
- (func $~lib/array/Array<Vec>#__unchecked_get (; 63 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/array/Array<Vec>#__unchecked_get (; 63 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4673,7 +4673,7 @@
   i32.add
   i32.load offset=8
  )
- (func $src/index/render (; 64 ;) (type $FUNCSIG$viiiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $src/index/render (; 64 ;) (type $iiiiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -5393,39 +5393,39 @@
    unreachable
   end
  )
- (func $start (; 65 ;) (type $FUNCSIG$v)
+ (func $start (; 65 ;) (type $_)
   call $start:src/index
  )
- (func $null (; 66 ;) (type $FUNCSIG$v)
+ (func $null (; 66 ;) (type $_)
  )
- (func $Vec#get:x (; 67 ;) (type $FUNCSIG$di) (param $0 i32) (result f64)
+ (func $Vec#get:x (; 67 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load
  )
- (func $Vec#set:x (; 68 ;) (type $FUNCSIG$vid) (param $0 i32) (param $1 f64)
+ (func $Vec#set:x (; 68 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store
  )
- (func $Vec#get:y (; 69 ;) (type $FUNCSIG$di) (param $0 i32) (result f64)
+ (func $Vec#get:y (; 69 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load offset=8
  )
- (func $Vec#set:y (; 70 ;) (type $FUNCSIG$vid) (param $0 i32) (param $1 f64)
+ (func $Vec#set:y (; 70 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store offset=8
  )
- (func $Vec#get:z (; 71 ;) (type $FUNCSIG$di) (param $0 i32) (result f64)
+ (func $Vec#get:z (; 71 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load offset=16
  )
- (func $Vec#set:z (; 72 ;) (type $FUNCSIG$vid) (param $0 i32) (param $1 f64)
+ (func $Vec#set:z (; 72 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store offset=16
  )
- (func $src/index/Vec#constructor|trampoline (; 73 ;) (type $FUNCSIG$iiddd) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
+ (func $src/index/Vec#constructor|trampoline (; 73 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
   block $3of3
    block $2of3
     block $1of3
@@ -5451,11 +5451,11 @@
   local.get $3
   call $src/index/Vec#constructor
  )
- (func $~lib/setargc (; 74 ;) (type $FUNCSIG$vi) (param $0 i32)
+ (func $~lib/setargc (; 74 ;) (type $i_) (param $0 i32)
   local.get $0
   global.set $~lib/argc
  )
- (func $src/index/Vec#sub|trampoline (; 75 ;) (type $FUNCSIG$iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#sub|trampoline (; 75 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -5474,7 +5474,7 @@
   local.get $2
   call $src/index/Vec#sub
  )
- (func $src/index/Vec#clone|trampoline (; 76 ;) (type $FUNCSIG$iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#clone|trampoline (; 76 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange

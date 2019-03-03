@@ -1,7 +1,7 @@
 {
-    "name": "as-pt",
+    "name": "as-smallpt",
     "version": "1.0.0",
-    "description": "Path tracer written in AssemblyScript",
+    "description": "SmallPT written in AssemblyScript",
     "main": "src/index.ts",
     "scripts": {
         "test": "jest",
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/01alchemist/as-pt.git"
+        "url": "https://github.com/01alchemist/as-smallpt.git"
     },
     "keywords": [
         "LZMA",
@@ -26,7 +26,7 @@
     "author": "Nidin Vinayakan",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/01alchemist/as-pt/issues"
+        "url": "https://github.com/01alchemist/as-smallpt/issues"
     },
     "dependencies": {},
     "devDependencies": {
