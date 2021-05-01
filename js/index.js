@@ -17,15 +17,18 @@ let imageData = ctx.getImageData(0, 0, width, height);
 let data = imageData.data;
 
 const _64KB = 64 * 1024;
-const REQUIRED_MB = 1024 * 1024 * 50 // 50 MB
+const REQUIRED_MB = 1024 * 1024 * 50; // 50 MB
 const REQUIRED_PAGES = Math.ceil(REQUIRED_MB / _64KB);
-console.log('REQUIRED_PAGES:', REQUIRED_PAGES);
+console.log("REQUIRED_PAGES:", REQUIRED_PAGES);
 
 const memory = new WebAssembly.Memory({
   initial: REQUIRED_PAGES,
   maximum: REQUIRED_PAGES,
   shared: true,
 });
+
+const U32 = new Uint32Array(memory.buffer);
+
 const numCPU = navigator.hardwareConcurrency - 1;
 let profiles = [];
 let workers = [];
@@ -39,6 +42,7 @@ let jobs = [];
 let queue = [];
 var context_ptr;
 var pixels_ptr;
+var pixels;
 var iterations = 0;
 var maxIterations = 1000;
 let startTime = 0;
@@ -46,7 +50,7 @@ let wasmModule;
 let wasmLibModule;
 var memoryView = new DataView(memory.buffer);
 
-const payload = 'untouched'
+const payload = "untouched";
 
 async function init() {
   const res = await fetch(`build/${payload}.wasm`);
@@ -107,6 +111,7 @@ function onWorkerMessage(e) {
     case "inited": {
       if (data.pixels_ptr) {
         pixels_ptr = data.pixels_ptr;
+        pixels = getArray(Float64Array, pixels_ptr);
         console.log("pixels_ptr:" + pixels_ptr);
       }
       if (data.context_ptr) {
@@ -127,12 +132,13 @@ function onWorkerMessage(e) {
     }
     case "done": {
       numWorkersDone++;
-      let job = jobs.find(job => job.id === data.job.id);
+      let job = jobs.find((job) => job.id === data.job.id);
       if (job) {
         job.duration = Date.now() - job.startTime;
         const index = data.id - 1;
         if (profiles[index]) {
-          profiles[index].el.innerText = "Thread #" + data.id + " " + job.duration + " ms";
+          profiles[index].el.innerText =
+            "Thread #" + data.id + " " + job.duration + " ms";
         } else {
           console.log(index);
         }
@@ -172,7 +178,7 @@ async function run(job, worker) {
   if (!isTracing) {
     return;
   }
-  return new Promise(async function(resolve) {
+  return new Promise(async function (resolve) {
     updateIndicator(job);
     await sleep();
     job.startTime = Date.now();
@@ -188,7 +194,7 @@ async function start() {
 }
 
 async function sleep() {
-  return new Promise(function(resolve) {
+  return new Promise(function (resolve) {
     setTimeout(resolve, 0);
   });
 }
@@ -214,12 +220,8 @@ async function render() {
 }
 
 function updateFrame(job) {
-  let pixels = readPixels(pixels_ptr, memoryView);
-  // console.timeEnd('rendered in')
-  // console.time('write time')
   for (let y = job.yoffset; y < job.yoffset + job.height; y++) {
     for (let x = job.xoffset; x < job.xoffset + job.width; x++) {
-      // let i = (height - y - 1) * width + x
       var i = y * (width * 4) + x * 4;
       var pi = y * (width * 3) + x * 3;
 
@@ -234,35 +236,18 @@ function updateFrame(job) {
   ctx.putImageData(imageData, 0, 0);
 }
 
-function readPixels(ptr, memory, arrayType = "Float64") {
-  const floatSize =
-    arrayType.indexOf("8") > -1
-      ? 1
-      : arrayType.indexOf("16") > -1
-        ? 2
-        : arrayType.indexOf("32") > -1
-          ? 4
-          : arrayType.indexOf("64") > -1
-            ? 8
-            : 1;
-
-  const AB_ptr = memory.getUint32(ptr, true);
-  const length = memory.getUint32(ptr + 4, true);
-  let element_ptr = AB_ptr + 8;
-  let rgb = new self[arrayType + "Array"](length * 3);
-  let p = 0;
-
-  for (let i = 0; i < length; i++) {
-    const vec_ptr = memory.getUint32(element_ptr, true);
-
-    rgb[p++] = memory["get" + arrayType](vec_ptr, true);
-    rgb[p++] = memory["get" + arrayType](vec_ptr + floatSize, true);
-    rgb[p++] = memory["get" + arrayType](vec_ptr + 2 * floatSize, true);
-
-    element_ptr += 4;
-  }
-
-  return rgb;
+function getArray(ctor, ptr) {
+  var elementSize = ctor.BYTES_PER_ELEMENT;
+  if (!elementSize) throw Error("not a typed array");
+  // checkMem();
+  var buf = U32[ptr >>> 2];
+  var byteOffset = U32[(ptr + 4) >>> 2];
+  var byteLength = U32[(ptr + 8) >>> 2];
+  return new ctor(
+    memory.buffer,
+    buf + 8 + byteOffset,
+    (byteLength - byteOffset) / elementSize
+  );
 }
 
 function updateIndicator(rect) {
@@ -270,19 +255,60 @@ function updateIndicator(rect) {
 
   //top-left
   fillRect({ x: rect.xoffset, y: rect.yoffset, width: 4, height: 1 }, color);
-  fillRect({ x: rect.xoffset, y: rect.yoffset + 1, width: 1, height: 3 }, color);
+  fillRect(
+    { x: rect.xoffset, y: rect.yoffset + 1, width: 1, height: 3 },
+    color
+  );
 
   //top-right
-  fillRect({ x: rect.xoffset + rect.width - 4, y: rect.yoffset, width: 4, height: 1 }, color);
-  fillRect({ x: rect.xoffset + rect.width - 1, y: rect.yoffset + 1, width: 1, height: 3 }, color);
+  fillRect(
+    { x: rect.xoffset + rect.width - 4, y: rect.yoffset, width: 4, height: 1 },
+    color
+  );
+  fillRect(
+    {
+      x: rect.xoffset + rect.width - 1,
+      y: rect.yoffset + 1,
+      width: 1,
+      height: 3,
+    },
+    color
+  );
 
   //bottom-left
-  fillRect({ x: rect.xoffset, y: rect.yoffset + rect.height - 4, width: 1, height: 4 }, color);
-  fillRect({ x: rect.xoffset + 1, y: rect.yoffset + rect.height - 1, width: 3, height: 1 }, color);
+  fillRect(
+    { x: rect.xoffset, y: rect.yoffset + rect.height - 4, width: 1, height: 4 },
+    color
+  );
+  fillRect(
+    {
+      x: rect.xoffset + 1,
+      y: rect.yoffset + rect.height - 1,
+      width: 3,
+      height: 1,
+    },
+    color
+  );
 
   //bottom-right
-  fillRect({ x: rect.xoffset + rect.width - 4, y: rect.yoffset + rect.height - 1, width: 4, height: 1 }, color);
-  fillRect({ x: rect.xoffset + rect.width - 1, y: rect.yoffset + rect.height - 4, width: 1, height: 3 }, color);
+  fillRect(
+    {
+      x: rect.xoffset + rect.width - 4,
+      y: rect.yoffset + rect.height - 1,
+      width: 4,
+      height: 1,
+    },
+    color
+  );
+  fillRect(
+    {
+      x: rect.xoffset + rect.width - 1,
+      y: rect.yoffset + rect.height - 4,
+      width: 1,
+      height: 3,
+    },
+    color
+  );
 
   ctx.putImageData(imageData, 0, 0);
 }

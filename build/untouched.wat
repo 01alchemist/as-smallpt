@@ -21,11 +21,13 @@
  (type $F (func (result f64)))
  (type $iiiii (func (param i32 i32 i32 i32) (result i32)))
  (type $FF (func (param f64) (result f64)))
+ (type $iiF_ (func (param i32 i32 f64)))
  (type $iF_ (func (param i32 f64)))
  (import "env" "memory" (memory $0 (shared 1 800)))
  (data (i32.const 8) "\0c\00\00\00~\00l\00i\00b\00/\00m\00a\00t\00h\00.\00t\00s\00")
  (data (i32.const 40) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s\00")
  (data (i32.const 72) "\1c\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00")
+ (data (i32.const 136) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s\00")
  (import "env" "abort" (func $~lib/env/abort (param i32 i32 i32 i32)))
  (import "index" "FastMath.cos" (func $src/index/FastMath.cos (param f64) (result f64)))
  (import "index" "FastMath.sin" (func $src/index/FastMath.sin (param f64) (result f64)))
@@ -45,7 +47,7 @@
  (global $~lib/math/random_state1_32 (mut i32) (i32.const 0))
  (global $~lib/argc (mut i32) (i32.const 0))
  (global $~lib/math/NativeMath.PI f64 (f64.const 3.141592653589793))
- (global $~lib/memory/HEAP_BASE i32 (i32.const 132))
+ (global $~lib/memory/HEAP_BASE i32 (i32.const 196))
  (export "memory" (memory $0))
  (export "table" (table $0))
  (export "GET_MEMORY_TOP" (func $src/index/GET_MEMORY_TOP))
@@ -1379,51 +1381,30 @@
   i32.store offset=4
   local.get $0
  )
- (func $~lib/array/Array<Vec>#constructor (; 51 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<f64>#constructor (; 51 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
   local.get $1
-  i32.const 268435454
+  i32.const 134217727
   i32.gt_u
   if
    i32.const 0
-   i32.const 40
-   i32.const 45
-   i32.const 39
+   i32.const 136
+   i32.const 23
+   i32.const 34
    call $~lib/env/abort
    unreachable
   end
   local.get $1
-  i32.const 2
+  i32.const 3
   i32.shl
   local.set $2
   local.get $2
   call $~lib/internal/arraybuffer/allocateUnsafe
   local.set $3
-  block (result i32)
-   local.get $0
-   i32.eqz
-   if
-    i32.const 8
-    call $~lib/memory/memory.allocate
-    local.set $0
-   end
-   local.get $0
-   i32.const 0
-   i32.store
-   local.get $0
-   i32.const 0
-   i32.store offset=4
-   local.get $0
-  end
-  local.get $3
-  i32.store
-  local.get $0
-  local.get $1
-  i32.store offset=4
   block $~lib/memory/memory.fill|inlined.1
    local.get $3
    i32.const 8
@@ -1438,31 +1419,48 @@
    local.get $6
    call $~lib/internal/memory/memset
   end
+  block (result i32)
+   local.get $0
+   i32.eqz
+   if
+    i32.const 12
+    call $~lib/memory/memory.allocate
+    local.set $0
+   end
+   local.get $0
+   i32.const 0
+   i32.store
+   local.get $0
+   i32.const 0
+   i32.store offset=4
+   local.get $0
+   i32.const 0
+   i32.store offset=8
+   local.get $0
+  end
+  local.get $3
+  i32.store
+  local.get $0
+  i32.const 0
+  i32.store offset=4
+  local.get $0
+  local.get $2
+  i32.store offset=8
   local.get $0
  )
- (func $~lib/array/Array<Vec>#__unchecked_set (; 52 ;) (type $iii_) (param $0 i32) (param $1 i32) (param $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
-  (local $6 i32)
+ (func $~lib/typedarray/Float64Array#constructor (; 52 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   local.get $0
-  i32.load
-  local.set $3
+  i32.eqz
+  if
+   i32.const 12
+   call $~lib/memory/memory.allocate
+   local.set $0
+  end
+  local.get $0
   local.get $1
-  local.set $4
-  local.get $2
-  local.set $5
-  i32.const 0
-  local.set $6
-  local.get $3
-  local.get $4
-  i32.const 2
-  i32.shl
-  i32.add
-  local.get $6
-  i32.add
-  local.get $5
-  i32.store offset=8
+  call $~lib/internal/typedarray/TypedArray<f64>#constructor
+  local.set $0
+  local.get $0
  )
  (func $src/index/createContext (; 53 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
@@ -1936,35 +1934,10 @@
   global.get $src/index/context
   i32.const 0
   local.get $8
-  call $~lib/array/Array<Vec>#constructor
+  i32.const 3
+  i32.mul
+  call $~lib/typedarray/Float64Array#constructor
   i32.store
-  block $break|0
-   i32.const 0
-   local.set $7
-   loop $repeat|0
-    local.get $7
-    local.get $8
-    i32.lt_s
-    i32.eqz
-    br_if $break|0
-    global.get $src/index/context
-    i32.load
-    local.get $7
-    i32.const 0
-    f64.const 0
-    f64.const 0
-    f64.const 0
-    call $src/index/Vec#constructor
-    call $~lib/array/Array<Vec>#__unchecked_set
-    local.get $7
-    i32.const 1
-    i32.add
-    local.set $7
-    br $repeat|0
-    unreachable
-   end
-   unreachable
-  end
   global.get $src/index/context
  )
  (func $src/index/Hit#constructor (; 54 ;) (type $iiFii) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
@@ -4653,27 +4626,85 @@
    local.get $6
   end
  )
- (func $~lib/array/Array<Vec>#__unchecked_get (; 63 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__get (; 63 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
-  local.get $0
-  i32.load
-  local.set $2
   local.get $1
-  local.set $3
-  i32.const 0
-  local.set $4
-  local.get $2
-  local.get $3
-  i32.const 2
-  i32.shl
-  i32.add
-  local.get $4
-  i32.add
+  local.get $0
   i32.load offset=8
+  i32.const 3
+  i32.shr_u
+  i32.ge_u
+  if
+   i32.const 0
+   i32.const 136
+   i32.const 39
+   i32.const 63
+   call $~lib/env/abort
+   unreachable
+  end
+  block $~lib/internal/arraybuffer/LOAD<f64,f64>|inlined.0 (result f64)
+   local.get $0
+   i32.load
+   local.set $2
+   local.get $1
+   local.set $3
+   local.get $0
+   i32.load offset=4
+   local.set $4
+   local.get $2
+   local.get $3
+   i32.const 3
+   i32.shl
+   i32.add
+   local.get $4
+   i32.add
+   f64.load offset=8
+  end
  )
- (func $src/index/render (; 64 ;) (type $iiiiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__set (; 64 ;) (type $iiF_) (param $0 i32) (param $1 i32) (param $2 f64)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 f64)
+  (local $6 i32)
+  local.get $1
+  local.get $0
+  i32.load offset=8
+  i32.const 3
+  i32.shr_u
+  i32.ge_u
+  if
+   i32.const 0
+   i32.const 136
+   i32.const 50
+   i32.const 63
+   call $~lib/env/abort
+   unreachable
+  end
+  block $~lib/internal/arraybuffer/STORE<f64,f64>|inlined.0
+   local.get $0
+   i32.load
+   local.set $3
+   local.get $1
+   local.set $4
+   local.get $2
+   local.set $5
+   local.get $0
+   i32.load offset=4
+   local.set $6
+   local.get $3
+   local.get $4
+   i32.const 3
+   i32.shl
+   i32.add
+   local.get $6
+   i32.add
+   local.get $5
+   f64.store offset=8
+  end
+ )
+ (func $src/index/render (; 65 ;) (type $iiiiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 i32)
@@ -4695,6 +4726,7 @@
   (local $24 i32)
   (local $25 i32)
   (local $26 f64)
+  (local $27 i32)
   block $break|0
    local.get $3
    local.set $6
@@ -5320,40 +5352,62 @@
              local.get $22
             end
             drop
+            local.get $9
+            i32.const 3
+            i32.mul
+            local.set $22
+            local.get $6
+            global.get $src/index/context
+            i32.load offset=28
+            i32.const 3
+            i32.mul
+            i32.mul
+            local.get $7
+            i32.const 3
+            i32.mul
+            i32.add
+            local.set $27
             global.get $src/index/context
             i32.load
-            local.get $9
-            call $~lib/array/Array<Vec>#__unchecked_get
-            local.set $22
-            block $src/index/Vec#add_in|inlined.11 (result i32)
-             local.get $22
-             local.set $23
-             local.get $11
-             local.set $21
-             local.get $23
-             local.get $23
-             f64.load
-             local.get $21
-             f64.load
-             f64.add
-             f64.store
-             local.get $23
-             local.get $23
-             f64.load offset=8
-             local.get $21
-             f64.load offset=8
-             f64.add
-             f64.store offset=8
-             local.get $23
-             local.get $23
-             f64.load offset=16
-             local.get $21
-             f64.load offset=16
-             f64.add
-             f64.store offset=16
-             local.get $23
-            end
-            drop
+            local.get $22
+            global.get $src/index/context
+            i32.load
+            local.get $22
+            call $~lib/internal/typedarray/TypedArray<f64>#__get
+            local.get $11
+            f64.load
+            f64.add
+            call $~lib/internal/typedarray/TypedArray<f64>#__set
+            global.get $src/index/context
+            i32.load
+            local.get $22
+            i32.const 1
+            i32.add
+            global.get $src/index/context
+            i32.load
+            local.get $22
+            i32.const 1
+            i32.add
+            call $~lib/internal/typedarray/TypedArray<f64>#__get
+            local.get $11
+            f64.load offset=8
+            f64.add
+            call $~lib/internal/typedarray/TypedArray<f64>#__set
+            global.get $src/index/context
+            i32.load
+            local.get $22
+            i32.const 2
+            i32.add
+            global.get $src/index/context
+            i32.load
+            local.get $22
+            i32.const 2
+            i32.add
+            call $~lib/internal/typedarray/TypedArray<f64>#__get
+            local.get $11
+            f64.load offset=16
+            f64.add
+            call $~lib/internal/typedarray/TypedArray<f64>#__set
            end
            local.get $10
            i32.const 1
@@ -5393,39 +5447,39 @@
    unreachable
   end
  )
- (func $start (; 65 ;) (type $_)
+ (func $start (; 66 ;) (type $_)
   call $start:src/index
  )
- (func $null (; 66 ;) (type $_)
+ (func $null (; 67 ;) (type $_)
  )
- (func $Vec#get:x (; 67 ;) (type $iF) (param $0 i32) (result f64)
+ (func $Vec#get:x (; 68 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load
  )
- (func $Vec#set:x (; 68 ;) (type $iF_) (param $0 i32) (param $1 f64)
+ (func $Vec#set:x (; 69 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store
  )
- (func $Vec#get:y (; 69 ;) (type $iF) (param $0 i32) (result f64)
+ (func $Vec#get:y (; 70 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load offset=8
  )
- (func $Vec#set:y (; 70 ;) (type $iF_) (param $0 i32) (param $1 f64)
+ (func $Vec#set:y (; 71 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store offset=8
  )
- (func $Vec#get:z (; 71 ;) (type $iF) (param $0 i32) (result f64)
+ (func $Vec#get:z (; 72 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load offset=16
  )
- (func $Vec#set:z (; 72 ;) (type $iF_) (param $0 i32) (param $1 f64)
+ (func $Vec#set:z (; 73 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store offset=16
  )
- (func $src/index/Vec#constructor|trampoline (; 73 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
+ (func $src/index/Vec#constructor|trampoline (; 74 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
   block $3of3
    block $2of3
     block $1of3
@@ -5451,11 +5505,11 @@
   local.get $3
   call $src/index/Vec#constructor
  )
- (func $~lib/setargc (; 74 ;) (type $i_) (param $0 i32)
+ (func $~lib/setargc (; 75 ;) (type $i_) (param $0 i32)
   local.get $0
   global.set $~lib/argc
  )
- (func $src/index/Vec#sub|trampoline (; 75 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#sub|trampoline (; 76 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -5474,7 +5528,7 @@
   local.get $2
   call $src/index/Vec#sub
  )
- (func $src/index/Vec#clone|trampoline (; 76 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#clone|trampoline (; 77 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange

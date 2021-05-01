@@ -18,14 +18,15 @@
  (type $F (func (result f64)))
  (type $iiiii (func (param i32 i32 i32 i32) (result i32)))
  (type $FF (func (param f64) (result f64)))
+ (type $iiF_ (func (param i32 i32 f64)))
  (type $iF_ (func (param i32 f64)))
  (type $FUNCSIG$i (func (result i32)))
  (type $FUNCSIG$idiiii (func (param f64 i32 i32 i32 i32) (result i32)))
  (type $FUNCSIG$vii (func (param i32 i32)))
- (type $FUNCSIG$ii (func (param i32) (result i32)))
  (import "env" "memory" (memory $0 (shared 1 800)))
  (data (i32.const 8) "\0d\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00.\00t\00s")
- (data (i32.const 40) "\0c\00\00\00~\00l\00i\00b\00/\00m\00a\00t\00h\00.\00t\00s")
+ (data (i32.const 40) "\1b\00\00\00~\00l\00i\00b\00/\00i\00n\00t\00e\00r\00n\00a\00l\00/\00t\00y\00p\00e\00d\00a\00r\00r\00a\00y\00.\00t\00s")
+ (data (i32.const 104) "\0c\00\00\00~\00l\00i\00b\00/\00m\00a\00t\00h\00.\00t\00s")
  (import "env" "abort" (func $~lib/env/abort (param i32 i32 i32 i32)))
  (import "index" "FastMath.cos" (func $src/index/FastMath.cos (param f64) (result f64)))
  (import "index" "FastMath.sin" (func $src/index/FastMath.sin (param f64) (result f64)))
@@ -877,7 +878,23 @@
   i32.store offset=20
   local.get $5
  )
- (func $~lib/internal/memory/memset (; 37 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
+ (func $~lib/internal/arraybuffer/allocateUnsafe (; 37 ;) (type $ii) (param $0 i32) (result i32)
+  (local $1 i32)
+  i32.const 1
+  i32.const 32
+  local.get $0
+  i32.const 7
+  i32.add
+  i32.clz
+  i32.sub
+  i32.shl
+  call $src/allocator/__memory_allocate
+  local.tee $1
+  local.get $0
+  i32.store
+  local.get $1
+ )
+ (func $~lib/internal/memory/memset (; 38 ;) (type $FUNCSIG$vii) (param $0 i32) (param $1 i32)
   (local $2 i32)
   local.get $1
   i32.eqz
@@ -1096,58 +1113,34 @@
    end
   end
  )
- (func $~lib/array/Array<Sphere>#constructor (; 38 ;) (type $FUNCSIG$ii) (param $0 i32) (result i32)
+ (func $~lib/array/Array<Sphere>#constructor (; 39 ;) (type $FUNCSIG$i) (result i32)
+  (local $0 i32)
   (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  local.get $0
-  i32.const 268435454
-  i32.gt_u
-  if
-   i32.const 0
-   i32.const 8
-   i32.const 45
-   i32.const 39
-   call $~lib/env/abort
-   unreachable
-  end
-  i32.const 1
-  i32.const 32
-  local.get $0
-  i32.const 2
-  i32.shl
-  local.tee $2
-  i32.const 7
-  i32.add
-  i32.clz
-  i32.sub
-  i32.shl
-  call $src/allocator/__memory_allocate
-  local.tee $3
-  local.get $2
-  i32.store
+  i32.const 36
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  local.set $1
   i32.const 8
   call $src/allocator/__memory_allocate
-  local.tee $1
+  local.tee $0
   i32.const 0
   i32.store
-  local.get $1
-  i32.const 0
-  i32.store offset=4
-  local.get $1
-  local.get $3
-  i32.store
-  local.get $1
   local.get $0
+  i32.const 0
   i32.store offset=4
-  local.get $3
+  local.get $0
+  local.get $1
+  i32.store
+  local.get $0
+  i32.const 9
+  i32.store offset=4
+  local.get $1
   i32.const 8
   i32.add
-  local.get $2
+  i32.const 36
   call $~lib/internal/memory/memset
-  local.get $1
+  local.get $0
  )
- (func $src/index/Ray#constructor (; 39 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Ray#constructor (; 40 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -1163,7 +1156,57 @@
   i32.store offset=4
   local.get $0
  )
- (func $src/index/createContext (; 40 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $~lib/internal/typedarray/TypedArray<f64>#constructor (; 41 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+  (local $2 i32)
+  local.get $1
+  i32.const 134217727
+  i32.gt_u
+  if
+   i32.const 0
+   i32.const 40
+   i32.const 23
+   i32.const 34
+   call $~lib/env/abort
+   unreachable
+  end
+  local.get $1
+  i32.const 3
+  i32.shl
+  local.tee $1
+  call $~lib/internal/arraybuffer/allocateUnsafe
+  local.tee $2
+  i32.const 8
+  i32.add
+  local.get $1
+  call $~lib/internal/memory/memset
+  local.get $0
+  i32.eqz
+  if
+   i32.const 12
+   call $src/allocator/__memory_allocate
+   local.set $0
+  end
+  local.get $0
+  i32.const 0
+  i32.store
+  local.get $0
+  i32.const 0
+  i32.store offset=4
+  local.get $0
+  i32.const 0
+  i32.store offset=8
+  local.get $0
+  local.get $2
+  i32.store
+  local.get $0
+  i32.const 0
+  i32.store offset=4
+  local.get $0
+  local.get $1
+  i32.store offset=8
+  local.get $0
+ )
+ (func $src/index/createContext (; 42 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -1172,10 +1215,9 @@
   call $src/index/Context#constructor
   global.set $src/index/context
   global.get $src/index/context
-  local.set $2
-  i32.const 9
-  call $~lib/array/Array<Sphere>#constructor
   local.set $3
+  call $~lib/array/Array<Sphere>#constructor
+  local.set $2
   f64.const 1e5
   i32.const 0
   f64.const 100001
@@ -1195,7 +1237,7 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   local.get $4
   i32.store offset=8
@@ -1218,7 +1260,7 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 4
   i32.add
@@ -1243,7 +1285,7 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 8
   i32.add
@@ -1268,7 +1310,7 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 12
   i32.add
@@ -1293,7 +1335,7 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 16
   i32.add
@@ -1318,7 +1360,7 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 20
   i32.add
@@ -1343,7 +1385,7 @@
   global.get $src/index/Refl_t.SPEC
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 24
   i32.add
@@ -1368,7 +1410,7 @@
   global.get $src/index/Refl_t.REFR
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 28
   i32.add
@@ -1393,14 +1435,14 @@
   global.get $src/index/Refl_t.DIFF
   call $src/index/Sphere#constructor
   local.set $4
-  local.get $3
+  local.get $2
   i32.load
   i32.const 32
   i32.add
   local.get $4
   i32.store offset=8
-  local.get $2
   local.get $3
+  local.get $2
   i32.store offset=24
   global.get $src/index/context
   i32.const 0
@@ -1417,52 +1459,52 @@
   call $src/index/Vec#constructor
   i32.store offset=8
   global.get $src/index/context
-  local.tee $2
+  local.tee $3
   i32.load offset=8
   local.set $4
-  local.get $2
-  i32.load offset=4
-  local.tee $3
-  f64.load
   local.get $3
+  i32.load offset=4
+  local.tee $2
+  f64.load
+  local.get $2
   f64.load
   f64.mul
-  local.get $3
+  local.get $2
   f64.load offset=8
-  local.get $3
+  local.get $2
   f64.load offset=8
   f64.mul
   f64.add
-  local.get $3
+  local.get $2
   f64.load offset=16
-  local.get $3
+  local.get $2
   f64.load offset=16
   f64.mul
   f64.add
   f64.sqrt
   local.set $5
-  local.get $3
-  local.get $3
+  local.get $2
+  local.get $2
   f64.load
   local.get $5
   f64.div
   f64.store
-  local.get $3
-  local.get $3
+  local.get $2
+  local.get $2
   f64.load offset=8
   local.get $5
   f64.div
   f64.store offset=8
-  local.get $3
-  local.get $3
+  local.get $2
+  local.get $2
   f64.load offset=16
   local.get $5
   f64.div
   f64.store offset=16
-  local.get $2
+  local.get $3
   i32.const 0
   local.get $4
-  local.get $3
+  local.get $2
   call $src/index/Ray#constructor
   i32.store offset=12
   global.get $src/index/context
@@ -1481,15 +1523,15 @@
   i32.store offset=20
   global.get $src/index/context
   local.tee $6
-  local.tee $2
+  local.tee $3
   local.get $0
   i32.store offset=28
-  local.get $2
+  local.get $3
   local.get $1
   i32.store offset=32
-  local.get $2
+  local.get $3
   i32.load offset=16
-  local.tee $3
+  local.tee $2
   local.get $0
   f64.convert_i32_s
   f64.const 0.5135
@@ -1498,20 +1540,20 @@
   f64.convert_i32_s
   f64.div
   f64.store
-  local.get $3
+  local.get $2
   f64.const 0
   f64.store offset=8
-  local.get $3
+  local.get $2
   f64.const 0
   f64.store offset=16
-  local.get $2
+  local.get $3
   local.tee $4
   i32.load offset=16
-  local.set $3
-  local.get $2
-  i32.load offset=20
-  local.tee $2
+  local.set $2
   local.get $3
+  i32.load offset=20
+  local.tee $3
+  local.get $2
   f64.load offset=8
   local.get $4
   i32.load offset=12
@@ -1519,56 +1561,56 @@
   local.tee $4
   f64.load offset=16
   f64.mul
-  local.get $3
+  local.get $2
   f64.load offset=16
   local.get $4
   f64.load offset=8
   f64.mul
   f64.sub
   f64.store
-  local.get $2
   local.get $3
+  local.get $2
   f64.load offset=16
   local.get $4
   f64.load
   f64.mul
-  local.get $3
+  local.get $2
   f64.load
   local.get $4
   f64.load offset=16
   f64.mul
   f64.sub
   f64.store offset=8
-  local.get $2
   local.get $3
+  local.get $2
   f64.load
   local.get $4
   f64.load offset=8
   f64.mul
-  local.get $3
+  local.get $2
   f64.load offset=8
   local.get $4
   f64.load
   f64.mul
   f64.sub
   f64.store offset=16
-  local.get $2
-  local.get $2
+  local.get $3
+  local.get $3
   f64.load
-  local.get $2
+  local.get $3
   f64.load
-  local.get $2
+  local.get $3
   f64.load
   f64.mul
-  local.get $2
+  local.get $3
   f64.load offset=8
-  local.get $2
+  local.get $3
   f64.load offset=8
   f64.mul
   f64.add
-  local.get $2
+  local.get $3
   f64.load offset=16
-  local.get $2
+  local.get $3
   f64.load offset=16
   f64.mul
   f64.add
@@ -1576,77 +1618,49 @@
   local.tee $5
   f64.div
   f64.store
-  local.get $2
-  local.get $2
+  local.get $3
+  local.get $3
   f64.load offset=8
   local.get $5
   f64.div
   f64.store offset=8
-  local.get $2
-  local.get $2
+  local.get $3
+  local.get $3
   f64.load offset=16
   local.get $5
   f64.div
   f64.store offset=16
-  local.get $2
-  local.get $2
+  local.get $3
+  local.get $3
   f64.load
   f64.const 0.5135
   f64.mul
   f64.store
-  local.get $2
-  local.get $2
+  local.get $3
+  local.get $3
   f64.load offset=8
   f64.const 0.5135
   f64.mul
   f64.store offset=8
-  local.get $2
-  local.get $2
+  local.get $3
+  local.get $3
   f64.load offset=16
   f64.const 0.5135
   f64.mul
   f64.store offset=16
   local.get $6
+  i32.const 12
+  call $src/allocator/__memory_allocate
   local.get $0
   local.get $1
   i32.mul
-  local.tee $0
-  call $~lib/array/Array<Sphere>#constructor
+  i32.const 3
+  i32.mul
+  call $~lib/internal/typedarray/TypedArray<f64>#constructor
   i32.store
-  i32.const 0
-  local.set $2
-  loop $repeat|0
-   local.get $2
-   local.get $0
-   i32.lt_s
-   if
-    global.get $src/index/context
-    i32.load
-    local.set $4
-    i32.const 0
-    f64.const 0
-    f64.const 0
-    f64.const 0
-    call $src/index/Vec#constructor
-    local.set $1
-    local.get $4
-    i32.load
-    local.get $2
-    i32.const 2
-    i32.shl
-    i32.add
-    local.get $1
-    i32.store offset=8
-    local.get $2
-    i32.const 1
-    i32.add
-    local.set $2
-    br $repeat|0
-   end
-  end
   global.get $src/index/context
  )
- (func $src/index/Hit#constructor (; 41 ;) (type $iiFii) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
+ (func $src/index/Hit#constructor (; 43 ;) (type $iiFii) (param $0 i32) (param $1 i32) (param $2 f64) (param $3 i32) (result i32)
   local.get $0
   i32.eqz
   if
@@ -1665,7 +1679,7 @@
   i32.store offset=16
   local.get $0
  )
- (func $src/index/Ray#constructor|trampoline (; 42 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/Ray#constructor|trampoline (; 44 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   (local $1 i32)
   block $2of2
@@ -1696,7 +1710,7 @@
   local.get $0
   call $src/index/Ray#constructor
  )
- (func $src/index/Hit#constructor|trampoline (; 43 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/Hit#constructor|trampoline (; 45 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   (local $1 i32)
   block $3of3
@@ -1722,7 +1736,7 @@
   local.get $0
   call $src/index/Hit#constructor
  )
- (func $src/index/Locals#constructor (; 44 ;) (type $FUNCSIG$i) (result i32)
+ (func $src/index/Locals#constructor (; 46 ;) (type $FUNCSIG$i) (result i32)
   (local $0 i32)
   i32.const 108
   call $src/allocator/__memory_allocate
@@ -1911,17 +1925,17 @@
   i32.store offset=104
   local.get $0
  )
- (func $src/index/createLocals (; 45 ;) (type $i) (result i32)
+ (func $src/index/createLocals (; 47 ;) (type $i) (result i32)
   call $src/index/Locals#constructor
  )
- (func $~lib/math/NativeMath.random (; 46 ;) (type $F) (result f64)
+ (func $~lib/math/NativeMath.random (; 48 ;) (type $F) (result f64)
   (local $0 i64)
   (local $1 i64)
   global.get $~lib/math/random_seeded
   i32.eqz
   if
    i32.const 0
-   i32.const 40
+   i32.const 104
    i32.const 985
    i32.const 24
    call $~lib/env/abort
@@ -1961,7 +1975,7 @@
   f64.const 1
   f64.sub
  )
- (func $src/index/radiance (; 47 ;) (type $iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
+ (func $src/index/radiance (; 49 ;) (type $iiiii) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -3688,21 +3702,73 @@
   f64.store offset=16
   local.get $4
  )
- (func $src/index/render (; 48 ;) (type $iiiiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
+ (func $~lib/internal/typedarray/TypedArray<f64>#__get (; 50 ;) (type $iiF) (param $0 i32) (param $1 i32) (result f64)
+  local.get $1
+  local.get $0
+  i32.load offset=8
+  i32.const 3
+  i32.shr_u
+  i32.ge_u
+  if
+   i32.const 0
+   i32.const 40
+   i32.const 39
+   i32.const 63
+   call $~lib/env/abort
+   unreachable
+  end
+  local.get $0
+  i32.load offset=4
+  local.get $0
+  i32.load
+  local.get $1
+  i32.const 3
+  i32.shl
+  i32.add
+  i32.add
+  f64.load offset=8
+ )
+ (func $~lib/internal/typedarray/TypedArray<f64>#__set (; 51 ;) (type $iiF_) (param $0 i32) (param $1 i32) (param $2 f64)
+  local.get $1
+  local.get $0
+  i32.load offset=8
+  i32.const 3
+  i32.shr_u
+  i32.ge_u
+  if
+   i32.const 0
+   i32.const 40
+   i32.const 50
+   i32.const 63
+   call $~lib/env/abort
+   unreachable
+  end
+  local.get $0
+  i32.load offset=4
+  local.get $0
+  i32.load
+  local.get $1
+  i32.const 3
+  i32.shl
+  i32.add
+  i32.add
+  local.get $2
+  f64.store offset=8
+ )
+ (func $src/index/render (; 52 ;) (type $iiiiii_) (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (param $5 i32)
   (local $6 i32)
   (local $7 i32)
   (local $8 f64)
   (local $9 i32)
   (local $10 i32)
-  (local $11 f64)
-  (local $12 i32)
+  (local $11 i32)
+  (local $12 f64)
   (local $13 f64)
   (local $14 i32)
   (local $15 i32)
   (local $16 i32)
   (local $17 i32)
   (local $18 i32)
-  (local $19 i32)
   block $break|0
    local.get $3
    local.set $14
@@ -3735,7 +3801,7 @@
         i32.mul
         local.get $15
         i32.add
-        local.set $19
+        local.set $18
         i32.const 0
         local.set $17
         loop $repeat|3
@@ -3764,18 +3830,18 @@
             f64.const 2
             call $~lib/math/NativeMath.random
             f64.mul
-            local.tee $11
+            local.tee $12
             f64.const 1
             f64.lt
             if (result f64)
-             local.get $11
+             local.get $12
              f64.sqrt
              f64.const 1
              f64.sub
             else             
              f64.const 1
              f64.const 2
-             local.get $11
+             local.get $12
              f64.sub
              f64.sqrt
              f64.sub
@@ -3800,13 +3866,13 @@
              f64.sqrt
              f64.sub
             end
-            local.set $11
+            local.set $12
             local.get $0
             i32.load offset=56
-            local.tee $7
-            global.get $src/index/context
-            local.tee $18
             local.tee $9
+            global.get $src/index/context
+            local.tee $11
+            local.tee $7
             i32.load offset=16
             local.tee $6
             f64.load
@@ -3821,7 +3887,7 @@
             local.get $15
             f64.convert_i32_s
             f64.add
-            local.get $9
+            local.get $7
             i32.load offset=28
             f64.convert_i32_s
             f64.div
@@ -3830,13 +3896,13 @@
             local.tee $8
             f64.mul
             f64.store
-            local.get $7
+            local.get $9
             local.get $6
             f64.load offset=8
             local.get $8
             f64.mul
             f64.store offset=8
-            local.get $7
+            local.get $9
             local.get $6
             f64.load offset=16
             local.get $8
@@ -3844,9 +3910,8 @@
             f64.store offset=16
             local.get $0
             i32.load offset=60
-            local.tee $9
-            local.get $18
-            local.tee $12
+            local.tee $7
+            local.get $11
             i32.load offset=20
             local.tee $6
             f64.load
@@ -3854,14 +3919,14 @@
             f64.convert_i32_s
             f64.const 0.5
             f64.add
-            local.get $11
+            local.get $12
             f64.add
             f64.const 2
             f64.div
             local.get $14
             f64.convert_i32_s
             f64.add
-            local.get $12
+            local.get $11
             i32.load offset=32
             f64.convert_i32_s
             f64.div
@@ -3870,59 +3935,59 @@
             local.tee $8
             f64.mul
             f64.store
-            local.get $9
+            local.get $7
             local.get $6
             f64.load offset=8
             local.get $8
             f64.mul
             f64.store offset=8
-            local.get $9
+            local.get $7
             local.get $6
             f64.load offset=16
             local.get $8
             f64.mul
             f64.store offset=16
-            local.get $7
+            local.get $9
             local.tee $6
             local.get $6
             f64.load
-            local.get $9
+            local.get $7
             f64.load
             f64.add
             f64.store
             local.get $6
             local.get $6
             f64.load offset=8
-            local.get $9
+            local.get $7
             f64.load offset=8
             f64.add
             f64.store offset=8
             local.get $6
             local.get $6
             f64.load offset=16
-            local.get $9
+            local.get $7
             f64.load offset=16
             f64.add
             f64.store offset=16
             local.get $6
             local.get $6
             f64.load
-            local.get $12
+            local.get $11
             i32.load offset=12
             i32.load offset=4
             local.tee $6
             f64.load
             f64.add
             f64.store
-            local.get $7
-            local.get $7
+            local.get $9
+            local.get $9
             f64.load offset=8
             local.get $6
             f64.load offset=8
             f64.add
             f64.store offset=8
-            local.get $7
-            local.get $7
+            local.get $9
+            local.get $9
             f64.load offset=16
             local.get $6
             f64.load offset=16
@@ -3930,51 +3995,51 @@
             f64.store offset=16
             local.get $0
             i32.load offset=64
-            local.tee $12
-            local.get $7
+            local.tee $7
+            local.get $9
             local.tee $6
             f64.load
             f64.const 140
             f64.mul
             f64.store
-            local.get $12
+            local.get $7
             local.get $6
             f64.load offset=8
             f64.const 140
             f64.mul
             f64.store offset=8
-            local.get $12
+            local.get $7
             local.get $6
             f64.load offset=16
             f64.const 140
             f64.mul
             f64.store offset=16
-            local.get $12
+            local.get $7
             local.tee $6
             local.get $6
             f64.load
-            local.get $18
+            local.get $11
             i32.load offset=12
             i32.load
-            local.tee $9
+            local.tee $11
             f64.load
             f64.add
             f64.store
             local.get $6
             local.get $6
             f64.load offset=8
-            local.get $9
+            local.get $11
             f64.load offset=8
             f64.add
             f64.store offset=8
             local.get $6
             local.get $6
             f64.load offset=16
-            local.get $9
+            local.get $11
             f64.load offset=16
             f64.add
             f64.store offset=16
-            local.get $7
+            local.get $9
             local.tee $6
             f64.load
             local.get $6
@@ -4016,30 +4081,30 @@
             i32.load offset=104
             local.tee $6
             i32.load
-            local.tee $9
-            local.get $12
+            local.tee $11
+            local.get $7
             f64.load
             f64.store
-            local.get $9
-            local.get $12
+            local.get $11
+            local.get $7
             f64.load offset=8
             f64.store offset=8
-            local.get $9
-            local.get $12
+            local.get $11
+            local.get $7
             f64.load offset=16
             f64.store offset=16
             local.get $6
             i32.load offset=4
-            local.tee $9
-            local.get $7
+            local.tee $7
+            local.get $9
             f64.load
             f64.store
-            local.get $9
             local.get $7
+            local.get $9
             f64.load offset=8
             f64.store offset=8
-            local.get $9
             local.get $7
+            local.get $9
             f64.load offset=16
             f64.store offset=16
             local.get $6
@@ -4104,20 +4169,20 @@
           local.get $0
           i32.load offset=96
           f64.load
-          local.tee $11
+          local.tee $12
           f64.const 0
           f64.lt
           if (result f64)
            f64.const 0
           else           
            f64.const 1
-           local.get $11
-           local.get $11
+           local.get $12
+           local.get $12
            f64.const 1
            f64.gt
            select
           end
-          local.set $11
+          local.set $12
           local.get $0
           i32.load offset=96
           f64.load offset=8
@@ -4155,7 +4220,7 @@
           local.get $0
           i32.load offset=76
           local.tee $10
-          local.get $11
+          local.get $12
           f64.store
           local.get $10
           local.get $8
@@ -4182,35 +4247,53 @@
           f64.mul
           f64.store offset=16
           global.get $src/index/context
-          i32.load
-          i32.load
-          local.get $19
-          i32.const 2
-          i32.shl
-          i32.add
-          i32.load offset=8
-          local.tee $7
-          local.get $7
-          f64.load
-          local.get $10
           local.tee $9
+          i32.load offset=28
+          drop
+          local.get $9
+          i32.load
+          local.get $18
+          i32.const 3
+          i32.mul
+          local.tee $7
+          local.get $9
+          i32.load
+          local.get $7
+          call $~lib/internal/typedarray/TypedArray<f64>#__get
+          local.get $10
           f64.load
           f64.add
-          f64.store
+          call $~lib/internal/typedarray/TypedArray<f64>#__set
+          global.get $src/index/context
+          local.tee $6
+          i32.load
           local.get $7
-          local.get $7
-          f64.load offset=8
+          i32.const 1
+          i32.add
+          local.tee $9
+          local.get $6
+          i32.load
           local.get $9
+          call $~lib/internal/typedarray/TypedArray<f64>#__get
+          local.get $10
           f64.load offset=8
           f64.add
-          f64.store offset=8
+          call $~lib/internal/typedarray/TypedArray<f64>#__set
+          global.get $src/index/context
+          local.tee $6
+          i32.load
           local.get $7
-          local.get $7
-          f64.load offset=16
+          i32.const 2
+          i32.add
+          local.tee $9
+          local.get $6
+          i32.load
           local.get $9
+          call $~lib/internal/typedarray/TypedArray<f64>#__get
+          local.get $10
           f64.load offset=16
           f64.add
-          f64.store offset=16
+          call $~lib/internal/typedarray/TypedArray<f64>#__set
           local.get $17
           i32.const 1
           i32.add
@@ -4242,48 +4325,48 @@
    unreachable
   end
  )
- (func $start (; 49 ;) (type $_)
-  i32.const 72
+ (func $start (; 53 ;) (type $_)
+  i32.const 136
   global.set $src/allocator/SATRT_OFFSET
   global.get $src/allocator/SATRT_OFFSET
   global.set $src/allocator/OFFSET_PTR
-  i32.const 80
+  i32.const 144
   global.set $src/allocator/TOP
   global.get $src/allocator/OFFSET_PTR
   global.get $src/allocator/TOP
   i32.store
  )
- (func $null (; 50 ;) (type $_)
+ (func $null (; 54 ;) (type $_)
   nop
  )
- (func $Vec#get:x (; 51 ;) (type $iF) (param $0 i32) (result f64)
+ (func $Vec#get:x (; 55 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load
  )
- (func $Vec#set:x (; 52 ;) (type $iF_) (param $0 i32) (param $1 f64)
+ (func $Vec#set:x (; 56 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store
  )
- (func $Vec#get:y (; 53 ;) (type $iF) (param $0 i32) (result f64)
+ (func $Vec#get:y (; 57 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load offset=8
  )
- (func $Vec#set:y (; 54 ;) (type $iF_) (param $0 i32) (param $1 f64)
+ (func $Vec#set:y (; 58 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store offset=8
  )
- (func $Vec#get:z (; 55 ;) (type $iF) (param $0 i32) (result f64)
+ (func $Vec#get:z (; 59 ;) (type $iF) (param $0 i32) (result f64)
   local.get $0
   f64.load offset=16
  )
- (func $Vec#set:z (; 56 ;) (type $iF_) (param $0 i32) (param $1 f64)
+ (func $Vec#set:z (; 60 ;) (type $iF_) (param $0 i32) (param $1 f64)
   local.get $0
   local.get $1
   f64.store offset=16
  )
- (func $src/index/Vec#constructor|trampoline (; 57 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
+ (func $src/index/Vec#constructor|trampoline (; 61 ;) (type $iFFFi) (param $0 i32) (param $1 f64) (param $2 f64) (param $3 f64) (result i32)
   block $3of3
    block $2of3
     block $1of3
@@ -4309,11 +4392,11 @@
   local.get $3
   call $src/index/Vec#constructor
  )
- (func $~lib/setargc (; 58 ;) (type $i_) (param $0 i32)
+ (func $~lib/setargc (; 62 ;) (type $i_) (param $0 i32)
   local.get $0
   global.set $~lib/argc
  )
- (func $src/index/Vec#sub|trampoline (; 59 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+ (func $src/index/Vec#sub|trampoline (; 63 ;) (type $iiii) (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange
@@ -4332,7 +4415,7 @@
   local.get $2
   call $src/index/Vec#sub
  )
- (func $src/index/Vec#clone|trampoline (; 60 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
+ (func $src/index/Vec#clone|trampoline (; 64 ;) (type $iii) (param $0 i32) (param $1 i32) (result i32)
   block $1of1
    block $0of1
     block $outOfRange

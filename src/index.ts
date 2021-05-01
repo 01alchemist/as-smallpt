@@ -299,7 +299,8 @@ function intersect(r: Ray, hit: Hit, locals: Locals): Hit {
 }
 
 class Context {
-    pixels: Vec[];
+    // pixels: Vec[];
+    pixels: Float64Array;
     dir: Vec;
     pos: Vec;
     cam: Ray;
@@ -342,11 +343,11 @@ class Locals {
     constructor() {}
 }
 
-export function getPixels(): Vec[] {
+export function getPixels(): Float64Array {
     return context.pixels;
 }
 
-export function setPixels(p: Vec[]): void {
+export function setPixels(p: Float64Array): void {
     context.pixels = p;
 }
 
@@ -385,10 +386,11 @@ export function createContext(w: int, h: int): Context {
         .norm_in()
         .multScalar_in(0.5135);
     var len = w * h;
-    context.pixels = new Array<Vec>(len);
-    for (let i = 0; i < len; i++) {
-        context.pixels.__unchecked_set(i, new Vec());
-    }
+    // context.pixels = new Array<Vec>(len);
+    context.pixels = new Float64Array(len * 3);
+    // for (let i = 0; i < len; i++) {
+    //     context.pixels.__unchecked_set(i, new Vec());
+    // }
     return context;
 }
 
@@ -567,10 +569,23 @@ export function render(locals: Locals, samps: int, ox: int, oy: int, w: int, h: 
                     let v1 = locals.loc16.set(_x, _y, _z);
                     v1.multScalar_in(0.55);
 
-                    let _c = context.pixels.__unchecked_get(i);
-                    _c.add_in(v1);
+                    // let _c:Vec = context.pixels.__unchecked_get(i);
+                    // _c.add_in(v1);
+                    let index = i * 3;
+                    var pi = y * (context.width * 3) + x * 3;
+                    context.pixels[index] = context.pixels[index] + v1.x;
+                    context.pixels[index+1] = context.pixels[index+1] + v1.y;
+                    context.pixels[index+2] = context.pixels[index+2] + v1.z;
+
+                    // logf(context.pixels[index]);
+                    // logf(context.pixels[index+1]);
+                    // logf(context.pixels[index+2]);
                 }
             }
         }
     }
+    // let index = context.width * (context.height/2);
+    // logf(context.pixels[index]);
+    // logf(context.pixels[index+1]);
+    // logf(context.pixels[index+2]);
 }
